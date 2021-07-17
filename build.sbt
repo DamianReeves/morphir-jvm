@@ -15,7 +15,8 @@ lazy val root = (project in file("."))
     testFrameworks := Seq(new TestFramework("zio.test.sbt.ZTestFramework"))
   )
   .aggregate(
-    morphirIR
+    `morphir-ir`,
+    `morphir-frontend-scala`
   )
 
 lazy val commonSettings = Seq(
@@ -25,6 +26,7 @@ lazy val commonSettings = Seq(
     "-deprecation",
     "-language:postfixOps",
     "-Ykind-projector",
+    "-indent",
     "-Yexplicit-nulls",
     "-source",
     "future",
@@ -33,10 +35,29 @@ lazy val commonSettings = Seq(
   scalaVersion := "3.0.0"
 )
 
-lazy val morphirIR = project
+lazy val `morphir-ir` = project
   .in(file("./morphir-ir"))
   .settings(
     name := "morphir-ir",
+    version := "0.1.0",
+    scalacOptions ++= Seq(
+      "-language:postfixOps",
+      "-Ykind-projector",
+      "-Yexplicit-nulls",
+      "-source",
+      "future",
+      "-Xfatal-warnings"
+    ),
+    libraryDependencies ++= Dependencies.zioCommonDeps ++ Seq(Dependencies.eu.timepit.refined),
+    testFrameworks := Seq(new TestFramework("zio.test.sbt.ZTestFramework")),
+    scalaVersion := "3.0.0"
+  )
+
+lazy val `morphir-frontend-scala` = project
+  .in(file("./morphir-frontend/scala"))
+  .dependsOn()
+  .settings(
+    name := "morphir-frontend-scala",
     version := "0.1.0",
     scalacOptions ++= Seq(
       "-language:postfixOps",
