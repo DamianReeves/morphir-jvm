@@ -1,3 +1,4 @@
 package org.finos.morphir.ir
 
-final case class Path(path: List[Name])
+opaque type Path = List[Name]
+object Path
